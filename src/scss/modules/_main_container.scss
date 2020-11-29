@@ -1,0 +1,37 @@
+
+
+.App{
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+
+.main_container{
+  width: 100vw;
+  height:100vh;
+  //background:ivory;
+  position: relative;
+  z-index: 100;
+  background: $main-bg;
+  //background: bisque;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+
+.round_animation{
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  border: 2px solid red;
+  z-index: 1000;
+  bottom: 0;
+  right: 0;
+  background: transparent;
+  transition: .05s;
+  -webkit-transition: .05s;
+  -moz-transition: .05s;
+}
+

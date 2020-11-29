@@ -1,0 +1,16 @@
+
+
+
+$colors-number-menu: #807f81;
+$color-main-text: #ffffff;
+$color-contrast-line: red;
+$main-bg : #18171c;
+
+
+@mixin flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

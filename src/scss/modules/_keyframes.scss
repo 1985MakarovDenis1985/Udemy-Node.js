@@ -1,0 +1,191 @@
+@keyframes text_slider_appear {
+  0% {
+    opacity: 0;
+    padding-top: 70px;
+  }
+  30%{
+    padding-top: 40px;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    padding-top: 0;
+  }
+}
+
+
+@keyframes first_animate_Slider {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes first_animate_prevSlider {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: -46%;
+  }
+}
+
+@keyframes header_contacts_button{
+  0%{
+    transform: rotate(0deg);
+  }
+  2%{
+    transform: rotate(5deg);
+  }
+  4%{
+    transform: rotate(-5deg);
+  }
+  6%{
+    transform: rotate(4deg);
+  }
+  8%{
+    transform: rotate(-4deg);
+  }
+  10%{
+    transform: rotate(3deg);
+  }
+  12%{
+    transform: rotate(-3deg);
+  }
+  14%{
+    transform: rotate(2deg);
+  }
+  16%{
+    transform: rotate(-2deg);
+  }
+  18%{
+    transform: rotate(1deg);
+  }
+  20%{
+    transform: rotate(-1deg);
+  }
+  22%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes btn_animate_contacts {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);  }
+
+  75% {
+    opacity: .2;
+    transform: scale(1.3);
+  }
+
+  100%{
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes emailSubscribeContactsFalse {
+  0% {
+    margin-top: -10px;
+    color: #c8454c;
+    opacity: 0;
+  }
+  100%{
+    margin-top: 40px;
+    opacity: 1;
+    color: #c8454c;
+  }
+}
+@keyframes emailSubscribeContactsTrue {
+  0% {
+    margin-top: -10px;
+    opacity: 0;
+    color: #ffffff;
+  }
+  100%{
+    opacity: 1;
+    color: green;
+    margin-top: 40px;
+  }
+}
+
+@keyframes ticket_slide_appear {
+  0% {
+    bottom: 15%;
+    opacity: 0;
+
+  }
+  100%{
+    opacity: 1;
+    bottom: 23%;
+  }
+}
+
+@keyframes ticket_date_appear {
+  0% {
+    margin-top: 15%;
+    opacity: 0;
+
+  }
+  100%{
+    opacity: 1;
+    margin-top: 11%;
+  }
+}
+@keyframes ticket_form_title_appear {
+  0% {
+    bottom: 5%;
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    bottom: 10%;
+  }
+}
+
+@keyframes ticket_animation_appear {
+  0% {
+    margin-top: -15%;
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    margin-top: 5%;
+  }
+}
+
+@keyframes words_header_portfolio {
+  0% {
+    margin-top: 20%;
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+@keyframes login_inform_appear
+{
+  0% {
+    margin-top: 150px;
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    margin-top: 50px;
+  }
+}
