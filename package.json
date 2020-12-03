@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon src/server/l_2_express/express.js"
   },
   "browserslist": [
     "> 1%",
@@ -52,7 +53,8 @@
     "webpack-dev-server": "^3.9.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.5.0"
+    "enzyme-to-json": "^3.5.0",
+    "nodemon": "^2.0.6"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -60,7 +62,10 @@
     "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.0",
+    "express": "^4.17.1",
     "minimist": "^1.2.5",
-    "normalize.scss": "^0.1.0"
+    "mongoose": "^5.11.1",
+    "normalize.scss": "^0.1.0",
+    "rimraf": "^3.0.2"
   }
 }

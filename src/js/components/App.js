@@ -36,7 +36,7 @@ class App extends React.Component {
         return (
             <Fragment>
                 <div></div>
-                {console.log(this.props.state)}
+                {/*{console.log(this.props.state)}*/}
                 <Form next = {this.props.nextSlide} prev={this.props.prevSlide}/>
                 <p>{this.props.state.age}</p>
                 <UsersList users={this.state.users}/>
