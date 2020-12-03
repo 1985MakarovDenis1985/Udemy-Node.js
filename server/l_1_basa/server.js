@@ -15,12 +15,12 @@ console.log(process.argv)
 const server = http.createServer((req, res) => {
     if (req.method === 'GET') {
         res.writeHead(200, {
-            'Content-Type': 'text/html; charset=utf-8'
+            'Content-Type': 'text/views; charset=utf-8'
         })
 
         if (req.url === '/') {
             fs.readFile(
-                path.join(__dirname, 'title.html'),
+                path.join(__dirname, 'title.views'),
                 'utf-8',
                 (err, content) => {
                     if (err) {
@@ -31,7 +31,7 @@ const server = http.createServer((req, res) => {
             )
         } else if (req.url === '/about') {
             fs.readFile(
-                path.join(__dirname, 'about.html'), // path.join(__dirname, 'папка', 'about.html')
+                path.join(__dirname, 'about.views'), // path.join(__dirname, 'папка', 'about.views')
                 'utf-8',
                 (err, content) => {
                     if (err) {
@@ -56,7 +56,7 @@ const server = http.createServer((req, res) => {
     } else if (req.method === 'POST') {
         const body = []
         res.writeHead(200, {
-            'Content-Type': 'text/html; charset=utf-8'
+            'Content-Type': 'text/views; charset=utf-8'
         })
 
         req.on('data', data => {
@@ -83,7 +83,7 @@ server.listen(3000, () => {
 //
 //     if (req.method === 'GET') {
 //         res.writeHead(200, {
-//             'Content-type': 'text/html'
+//             'Content-type': 'text/views'
 //         })
 //         res.end(`
 //             <h1>Form</h1>
@@ -97,7 +97,7 @@ server.listen(3000, () => {
 //         const body = []
 //
 //         res.writeHead(200, {
-//             'Content-type': 'text/html; charset=utf-8', // указываем кодировку запроса
+//             'Content-type': 'text/views; charset=utf-8', // указываем кодировку запроса
 //         })
 //
 //         // прослушиваем данные из формы

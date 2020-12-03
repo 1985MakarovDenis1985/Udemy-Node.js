@@ -72,7 +72,7 @@ module.exports = {
     },
     devServer:{
         overlay: true,                                 //// выводит ошибки в черном окне
-        contentBase: path.join(__dirname, "src/"),     //// в какой папке читать html
+        contentBase: path.join(__dirname, "src/"),     //// в какой папке читать views
         compress: true,
         host: '0.0.0.0',
         useLocalIp: true,
@@ -84,7 +84,7 @@ module.exports = {
             filename: "[name].css",
         }),
         new HtmlWebpackPlugin({
-            template: "./src/index.html"
+            template: "./src/index.views"
         }),
     ],
 };
