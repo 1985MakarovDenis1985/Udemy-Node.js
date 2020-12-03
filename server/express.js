@@ -19,12 +19,28 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //// --- c использованием handlebars --- ////
 app.get('/', (req, res, next) => {
-    res.render('index')
+    res.render('index', {
+        title: 'Home Page',
+        isHome: true
+    })
 })
 
-app.get('/about',  (req, res, next) => {
-    res.render('about')
+app.get('/courses',  (req, res, next) => {
+    res.render('courses', {
+        title: "Courses",
+        isCourses: true
+    })
 })
+
+app.get('/add',  (req, res, next) => {
+    res.render('add', {
+        title: "Add Course",
+        isAdd: true
+    })
+})
+
+
+
 
 //// --- без использования handlebars --- ////
 // app.get('/', (req, res, next) => {
