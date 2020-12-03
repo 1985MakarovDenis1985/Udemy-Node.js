@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
     "test": "jest",
-    "start": "nodemon server/l_2_express/express.js"
+    "start": "nodemon server/express.js"
   },
   "browserslist": [
     "> 1%",

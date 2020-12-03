@@ -14,6 +14,8 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 // указания пути шаблонов
 app.set('views', path.join(__dirname, 'views')) // второй параметр название папки с шаблонами
+// регестрируем статические файлы (где будут хранится например css...)
+app.use(express.static(path.join(__dirname, 'public')))
 
 //// --- c использованием handlebars --- ////
 app.get('/', (req, res, next) => {
