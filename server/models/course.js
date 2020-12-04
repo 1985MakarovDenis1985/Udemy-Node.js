@@ -17,7 +17,6 @@ class Course {
             image : this.image,
             id : this.id
         }
-
     }
 
     async save(){
