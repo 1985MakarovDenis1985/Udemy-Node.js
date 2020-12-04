@@ -1,1 +1,20 @@
-[{"title":"Angular","price":"780$","image":"https://dmm40cf0lyret.cloudfront.net/wp-content/uploads/2020/08/Agencia-desarrollo-Angular-JS.jpg","id":"70e923d7-59ec-43f2-89f3-2dae20d99374"},{"title":"Vue","price":"450$","image":"https://tuhub.ru/sites/default/files/2018-02/vuejs-logo.jpg","id":"6e6a76ac-1a0f-4b21-ad61-eefc7f9cd0d5"},{"title":"Reacr","price":"680$","image":"https://www.ubidreams.fr/wp-content/uploads/2020/06/logo-react-js.png","id":"ac7d916f-928b-4e75-ad08-ee3d8c77fb6b"}]
+[
+  {
+    "title": "Angular",
+    "price": "780",
+    "image": "https://dmm40cf0lyret.cloudfront.net/wp-content/uploads/2020/08/Agencia-desarrollo-Angular-JS.jpg",
+    "id": "70e923d7-59ec-43f2-89f3-2dae20d99374"
+  },
+  {
+    "title": "Vue",
+    "price": "450",
+    "image": "https://tuhub.ru/sites/default/files/2018-02/vuejs-logo.jpg",
+    "id": "6e6a76ac-1a0f-4b21-ad61-eefc7f9cd0d5"
+  },
+  {
+    "title": "Reacr",
+    "price": "680",
+    "image": "https://www.ubidreams.fr/wp-content/uploads/2020/06/logo-react-js.png",
+    "id": "ac7d916f-928b-4e75-ad08-ee3d8c77fb6b"
+  }
+]
