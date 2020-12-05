@@ -12,11 +12,16 @@
                     <span class="card-title">{{title}}</span>
                     <p class="price">{{price}}</p>
                 </div>
-                <div class="card-action">
+                <div class="card-action actions">
 <!--                target="_blank" -> для открытия в новой вкладке-->
                     <a href="/courses/{{id}}" target="_blank">Open the course</a>
 <!--                для редактирования курса || "?allow=true" = это query параметр-->
                     <a href="/courses/{{id}}/edit?allow=true">Change course</a>
+<!--                форма для корзины -->
+                    <form action="/card/add" method="POST">
+                        <input type="hidden" name="id" value="{{id}}">
+                        <button type="submit" class="btn btn-primary">Byu</button>
+                    </form>
                 </div>
             </div>
         </div>

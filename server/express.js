@@ -3,9 +3,11 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 
 // --- экспортируем роуты ---
-const homeRoutes = require('./routs/home')
-const coursesRoutes = require('./routs/courses')
-const addRoutes = require('./routs/add')
+const homeRoutes = require('./routes/home')
+const coursesRoutes = require('./routes/courses')
+const addRoutes = require('./routes/add')
+const cardRoutes = require('./routes/card')
+
 
 const app = express()
 
@@ -33,6 +35,8 @@ app.use(express.urlencoded({extended: true}))
 app.use('/', homeRoutes)
 app.use('/courses', coursesRoutes)
 app.use('/add', addRoutes)
+app.use('/card', cardRoutes)
+
 
 
 
