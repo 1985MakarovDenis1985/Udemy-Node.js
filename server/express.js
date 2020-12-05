@@ -7,7 +7,6 @@ const homeRoutes = require('./routs/home')
 const coursesRoutes = require('./routs/courses')
 const addRoutes = require('./routs/add')
 
-
 const app = express()
 
 // --- настраиваем движок ---

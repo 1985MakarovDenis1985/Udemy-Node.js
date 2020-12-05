@@ -34,7 +34,6 @@ class Course {
                 }
             )
         })
-        console.log("COURSES: ", courses)
     }
 
     static getAll(){
@@ -50,7 +49,11 @@ class Course {
                 }
             )
         })
+    }
 
+    static async getByID(id){
+        const courses = await Course.getAll()
+        return courses.find(el => el.id === id)
     }
 }
 
