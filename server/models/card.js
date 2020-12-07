@@ -33,7 +33,6 @@ class Card {
                     res()
                 }
             })
-
         })
     }
 
@@ -45,6 +44,33 @@ class Card {
                     rej(err)
                 } else {
                     res(JSON.parse(data))
+                }
+            })
+        })
+    }
+
+    static async remove(id){
+        const card = await Card.fetch()
+
+        const idx = card.courses.findIndex(el => el.id === id)
+        const course = card.courses[idx]
+
+        if (course.count === 1){
+            //удаляем
+            card.courses = card.courses.filter(c => c.id !== id)
+        } else {
+            //уменьшаем
+            card.courses[idx].count--
+        }
+        card.price -= course.price
+
+        return new Promise((res, rej) => {
+            fs.writeFile(p, JSON.stringify(card), err => {
+                if (err){
+                    rej(err)
+                }
+                else {
+                    res(card)
                 }
             })
         })
