@@ -17,7 +17,7 @@ router.get('/:id/edit', async (req, res) => {
     }
     const course = await Course.getByID(req.params.id)
     res.render('course-edit', {
-        title : `change: ${course.title}`,
+        title: `change: ${course.title}`,
         course
     })
 })
@@ -27,8 +27,8 @@ router.post('/edit', async (req, res) => {
     res.redirect('/courses')
 })
 
-router.get('/:id', async(req, res) => {
-   const course = await Course.getByID(req.params.id)
+router.get('/:id', async (req, res) => {
+    const course = await Course.getByID(req.params.id)
     res.render('course', {
         layout: 'empty',
         title: `Course: ${course.title}`,

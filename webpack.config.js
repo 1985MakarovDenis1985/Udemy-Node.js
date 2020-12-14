@@ -79,13 +79,14 @@ module.exports = {
         port: 3030, //// порт
         historyApiFallback: true /// для правильной работы роутера в React
     },
+    target: 'nodejs',
     plugins: [                      //// регестрируем плагины => смотр. на оф сфйтах
         new MiniCssExtractPlugin({
             filename: "[name].css",
         }),
         new HtmlWebpackPlugin({
             template: "./src/index.views"
-        }),
+        })
     ],
 };
 

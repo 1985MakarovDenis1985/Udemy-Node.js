@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
+const mongoose = require('mongoose')
 
 // --- экспортируем роуты ---
 const homeRoutes = require('./routes/home')
@@ -39,6 +40,27 @@ app.use('/card', cardRoutes)
 
 
 
+const PORT = process.env.PORT || 3000
+async function start(){
+// подключаем базу через mongoose
+    try {
+        const url = "mongodb+srv://admin:admin@heroes.ozbj6.mongodb.net/heroes?retryWrites=true&w=majority"
+        await mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+
+        app.listen(PORT, () => {
+            console.log(`server on port:${3000} has been started...`)
+        })
+    }catch (err){
+        console.log(err)
+    }
+}
+start()
+
+
+
+
+
+
 
 // //// --- lesson before registreted routes
 // //// --- c использованием handlebars --- ////
@@ -62,8 +84,6 @@ app.use('/card', cardRoutes)
 //         isAdd: true
 //     })
 // })
-
-
 //// --- без использования handlebars --- ////
 // app.get('/', (req, res, next) => {
 //     res.status(200)
@@ -74,10 +94,8 @@ app.use('/card', cardRoutes)
 //     res.status(200)
 //     res.sendFile(path.join(__dirname, 'html', 'about.views'))
 // })
-
-
-const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => {
-    console.log(`server on port:${3000} has been started...`)
-})
+// const PORT = process.env.PORT || 3000
+//
+// app.listen(PORT, () => {
+//     console.log(`server on port:${3000} has been started...`)
+// })

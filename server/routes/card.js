@@ -8,7 +8,7 @@ const Course = require('../models/course')
 router.post('/add', async (req, res) => {
     const course = await Course.getByID(req.body.id)
     await Card.add(course)
-    res.redirect('/card')
+    res.redirect('/courses')
 })
 
 router.get('/', async (req, res) => {
