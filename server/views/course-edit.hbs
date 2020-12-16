@@ -2,23 +2,42 @@
 
 <form action="/courses/edit" method="post">
     <div class="input-field ">
-        <input placeholder="new course" name="title" id="title" type="text" class="validate" required value="{{course.title}}">
+        <input placeholder="new course" name="title" id="title" type="text" class="validate" required
+               value="{{course.title}}">
         <label for="title"></label>
         <span class="helper-text" data-error="wrong"></span>
     </div>
 
     <div class="input-field ">
-        <input placeholder="cost of course" name="price" id="price" type="text" class="validate" required min="1" value="{{course.price}}">
+        <input placeholder="cost of course" name="price" id="price" type="text" class="validate" required min="1"
+               value="{{course.price}}">
         <label for="price"></label>
-        <span class="helper-text" data-error="write cost" ></span>
+        <span class="helper-text" data-error="write cost"></span>
     </div>
 
     <div class="input-field ">
-        <input placeholder="img" id="image" name="image" type="text" class="validate" required value="{{course.image}}" >
+        <input placeholder="img" id="image" name="image" type="text" class="validate" required value="{{course.img}}">
         <label for="image"></label>
-        <span class="helper-text" data-error="wrong" ></span>
+        <span class="helper-text" data-error="wrong"></span>
     </div>
 
     <input type="hidden" name="id" value="{{course.id}}">
-    <button>Redactor of course</button>
+    <button type="submit">Redactor of course</button>
 </form>
+
+<form action="/courses/remove" method="post" id="form-remove">
+    <input type="hidden" id="input-remove" name="id" value="{{course.id}}">
+    <button type="submit"  class="btn-remove" id="btn-remove">Remove</button>
+</form>
+
+
+
+<!--для валидации и отправки формы через кнопку-->
+<!--<script>-->
+<!--    document.getElementById('btn-remove').addEventListener('click', ()=>{-->
+<!--        let a = confirm("are you sure?")-->
+<!--        if (a === true){-->
+<!--            document.getElementById('form-remove').submit()-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->

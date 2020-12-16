@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
+const Handlebars = require('handlebars')
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 const mongoose = require('mongoose')
 
 // --- экспортируем роуты ---
@@ -15,7 +18,8 @@ const app = express()
 // --- настраиваем движок ---
 const hbs = exphbs.create({
     defaultLayout: 'main',
-    extname: 'hbs'
+    extname: 'hbs',
+    handlebars: allowInsecurePrototypeAccess(Handlebars) // решает проблемы с доступом
 })
 
 // --- регистрируем движок hbs в express ---
@@ -44,8 +48,12 @@ const PORT = process.env.PORT || 3000
 async function start(){
 // подключаем базу через mongoose
     try {
-        const url = "mongodb+srv://admin:admin@heroes.ozbj6.mongodb.net/heroes?retryWrites=true&w=majority"
-        await mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+        const url = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
+        await mongoose.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        })
 
         app.listen(PORT, () => {
             console.log(`server on port:${3000} has been started...`)
