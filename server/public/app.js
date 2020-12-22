@@ -1,4 +1,4 @@
-
+// преобразование валюты
 const toCurrency = price => {
     return new Intl.NumberFormat('ca-CA', {
         currency: 'CAD',
@@ -6,18 +6,33 @@ const toCurrency = price => {
     }).format(price)
 }
 
+// преобразование даты
+const toDate = date => {
+    return new Intl.DateTimeFormat('ru-Ru', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }).format(new Date(date))
+}
+
 document.querySelectorAll('.price').forEach(el => {
     el.textContent = toCurrency(el.textContent)
+})
+document.querySelectorAll('.date').forEach(el => {
+    el.textContent = toDate(el.textContent)
 })
 
 
 const $card = document.querySelector('#card')
-if ($card) {
+    if ($card) {
     $card.addEventListener('click', event => {
         if (event.target.classList.contains('js-remove')) {
             const id = event.target.dataset.id
 
-            fetch('/card/remove/' + id, {
+            fetch('/cart/remove/' + id, {
                 method: 'delete',
             }).then((res) => res.json())
                 .then(card => {
@@ -39,7 +54,6 @@ if ($card) {
                         $card.innerHTML = "Card is empty"
                     }
                 })
-            console.log(id)
         }
     })
 }

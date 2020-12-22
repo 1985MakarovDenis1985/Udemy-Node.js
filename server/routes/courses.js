@@ -10,7 +10,6 @@ router.get('/', async (req, res, next) => {
         // .populate('userId', 'email, name')
         // .select('price title img')
 
-    console.log(courses)
 
     res.render('courses', {
         title: "Courses",

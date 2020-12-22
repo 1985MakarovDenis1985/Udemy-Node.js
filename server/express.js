@@ -10,31 +10,27 @@ const mongoose = require('mongoose')
 const homeRoutes = require('./routes/home')
 const coursesRoutes = require('./routes/courses')
 const addRoutes = require('./routes/add')
-const cardRoutes = require('./routes/cart')
+const cartRoutes = require('./routes/cart')
+const ordersRoutes = require('./routes/orders')
 
-// --- экспорт Схемы ---
-const User = require('./models/user')
+
+const User = require('./models/user')  // --- экспорт Схемы ---
 
 const app = express()
 
-// --- настраиваем движок ---
-const hbs = exphbs.create({
+const hbs = exphbs.create({  // --- настраиваем движок ---
     defaultLayout: 'main',
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(Handlebars) // решает проблемы с доступом
 })
 
-// --- регистрируем движок hbs в express ---
-app.engine('hbs', hbs.engine)
+app.engine('hbs', hbs.engine) // --- регистрируем движок hbs в express ---
 
-// --- использование ---
-app.set('view engine', 'hbs')
+app.set('view engine', 'hbs') // --- использование ---
 
-// --- указания пути шаблонов ---
-app.set('views', path.join(__dirname, 'views')) // второй параметр название папки с шаблонами
+app.set('views', path.join(__dirname, 'views')) // --- указания пути шаблонов --- // второй параметр название папки с шаблонами
 
-// --- временно забираем юзера ---
-app.use(async (req, res, next) => {
+app.use(async (req, res, next) => { // --- временно забираем юзера ---
     try {
         const user = await User.findById('5fdcb8825c58fffd616a1062')
         req.user = user
@@ -44,8 +40,7 @@ app.use(async (req, res, next) => {
     }
 })
 
-// --- регестрируем статические файлы (где будут хранится например css...) ---
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'))) // --- регестрируем статические файлы (где будут хранится например css...) ---
 
 app.use(express.urlencoded({extended: true}))
 
@@ -53,14 +48,15 @@ app.use(express.urlencoded({extended: true}))
 app.use('/', homeRoutes)
 app.use('/courses', coursesRoutes)
 app.use('/add', addRoutes)
-app.use('/card', cardRoutes)
+app.use('/orders', ordersRoutes)
+app.use('/cart', cartRoutes)
+
 
 
 
 const PORT = process.env.PORT || 3000
 async function start(){
-// подключаем базу через mongoose
-    try {
+    try { // подключаем базу через mongoose
         const url = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
         await mongoose.connect(url, {
             useNewUrlParser: true,
@@ -68,8 +64,7 @@ async function start(){
             useFindAndModify: false
         })
 
-        // проверяем есть ли user уже в базе
-        const candidate = User.findOne()
+        const candidate = User.findOne()   // проверяем есть ли user уже в базе
 
         if (!candidate){
             const user = new User({

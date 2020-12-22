@@ -51,6 +51,25 @@ userSchema.methods.addToCart = function (course) {
     return this.save()
 }
 
+ userSchema.methods.removeFromCart = function (id){
+    let items = [...this.cart.items] // что-бы избежать мутаций
+    const idx = items.findIndex(el => el.courseId.toString() === id.toString())
+
+    if (items[idx].count === 1){
+        items = items.filter(el => el.courseId.toString() !== id.toString())
+    } else {
+        items[idx].count--
+    }
+
+    this.cart = {items};
+    return this.save()
+}
+
+userSchema.methods.clearCart = function (){
+    this.cart = []
+    return this.save()
+}
+
 
 // экспортируем модель: 1параметр - название модели, 2параметр - сама модель
 module.exports = model('User', userSchema)

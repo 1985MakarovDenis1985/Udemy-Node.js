@@ -20,6 +20,13 @@ const course = new Schema({
     // поле ID mongoose будет добавлять автоматом
 })
 
+course.method('toClient', function (){
+    const course = this.toObject()
+    course.id = course._id
+    delete course._id
+    return course
+})
+
 
 // экспортируем модель: 1параметр - название модели, 2параметр - сама модель
 module.exports = model('Course', course)
