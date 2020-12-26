@@ -4,9 +4,11 @@ const exphbs = require('express-handlebars')
 const Handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
+const MongoStore = require('connect-mongodb-session')(session) // для автоматического сохраниния сессий в mongoDb
 const varMiddleware = require('./middleware/variables')
-
 const mongoose = require('mongoose')
+const MONGODB_URI = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
+
 
 // --- экспортируем роуты ---
 const homeRoutes = require('./routes/home')
@@ -16,40 +18,33 @@ const cartRoutes = require('./routes/cart')
 const ordersRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
 
-const User = require('./models/user')  // --- экспорт Схемы ---
-
 const app = express()
-
 const hbs = exphbs.create({  // --- настраиваем движок ---
     defaultLayout: 'main',
     extname: 'hbs',
     handlebars: allowInsecurePrototypeAccess(Handlebars) // решает проблемы с доступом
 })
+const store = new MongoStore({ // --- создаем базу в монгодб с сессиями
+    collection: 'sessions',
+    uri: MONGODB_URI
+})
+
 
 app.engine('hbs', hbs.engine) // --- регистрируем движок hbs в express ---
-
 app.set('view engine', 'hbs') // --- использование ---
-
 app.set('views', path.join(__dirname, 'views')) // --- указания пути шаблонов --- // второй параметр название папки с шаблонами
 
-app.use(async (req, res, next) => { // --- временно забираем юзера ---
-    try {
-        const user = await User.findById('5fdcb8825c58fffd616a1062')
-        req.user = user
-        next()
-    }catch (err){
-        console.log(err)
-    }
-})
 
 app.use(express.static(path.join(__dirname, 'public'))) // --- регестрируем статические файлы (где будут хранится например css...) ---
 app.use(express.urlencoded({extended: true}))
 app.use(session({ // --- настраиваем сессию
     secret: 'some secret value',
-    resave: false,
-    saveUninitialized: false
+    resave: false, // --- указывает, нужно ли пересохранять сессию в хранилище, если она не изменилась (по умолчанию false)
+    saveUninitialized: false, // --- если true, то в хранилище будут попадать пустые сессии;
+    store // --- передаем базу с сессиями в настройки сессии
 }))
 app.use(varMiddleware)
+
 
 // --- регестрируем роуты с префиксами пути---
 app.use('/', homeRoutes)
@@ -60,29 +55,14 @@ app.use('/cart', cartRoutes)
 app.use('/auth', authRoutes)
 
 
-
-
 const PORT = process.env.PORT || 3000
 async function start(){
     try { // подключаем базу через mongoose
-        const url = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
-        await mongoose.connect(url, {
+        await mongoose.connect(MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false
         })
-
-        const candidate = User.findOne()   // проверяем есть ли user уже в базе
-
-        if (!candidate){
-            const user = new User({
-                name: 'Denys',
-                email: 'mda@gmail.com',
-                card: {items:[]}
-            })
-            await user.save()
-        }
-
         app.listen(PORT, () => {
             console.log(`server on port:${3000} has been started...`)
         })

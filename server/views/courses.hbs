@@ -2,31 +2,36 @@
 
 {{#if courses.length}}
     <div class="row">
-{{#each courses}}
-        <div class="col s4 ">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{{img}}" alt="{{title}}">
-                </div>
-                <div class="card-content">
-                    <span class="card-title">{{title}}</span>
-                    <p class="price">{{price}}</p>
-                </div>
-                <div class="card-action actions">
-<!--                target="_blank" -> для открытия в новой вкладке-->
-                    <a href="/courses/{{id}}" target="_blank">Open the course</a>
-<!--                для редактирования курса || "?allow=true" = это query параметр-->
-                    <a href="/courses/{{id}}/edit?allow=true">Change course</a>
-<!--                форма для корзины -->
-                    <form action="/cart/add" method="POST">
-                        <input type="hidden"  value="{{id}}" name="id">
-                        <button type="submit" class="btn btn-primary">Byu</button>
-                    </form>
+        {{#each courses}}
+            <div class="col s4 ">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{img}}" alt="{{title}}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">{{title}}</span>
+                        <p class="price">{{price}}</p>
+                    </div>
+                    <div class="card-action actions">
+                        <!--  target="_blank" -> для открытия в новой вкладке-->
+                        <a href="/courses/{{id}}" target="_blank">Open the course</a>
+                        <!--  для редактирования курса || "?allow=true" = это query параметр-->
+
+                        <!--  @root. - выходим из each и получаем доступ в корневых елиментов-->
+                        {{#if @root.isAuth}}
+                            <a href="/courses/{{id}}/edit?allow=true">Change course</a>
+                            <!--  форма для корзины -->
+                            <form action="/cart/add" method="POST">
+                                <input type="hidden" value="{{id}}" name="id">
+                                <button type="submit" class="btn btn-primary">Byu</button>
+                            </form>
+                        {{else}}
+                        {{/if}}
+                    </div>
                 </div>
             </div>
-        </div>
-    {{/each}}
-</div>
+        {{/each}}
+    </div>
 
 {{else}}
     <p>There are not courses yet</p>

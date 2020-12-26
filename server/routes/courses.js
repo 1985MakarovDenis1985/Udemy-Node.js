@@ -1,6 +1,7 @@
 const {Router} = require('express')
-const Course = require('../models/course')
 const router = Router()
+const auth = require('../middleware/auth')
+const Course = require('../models/course')
 
 router.get('/', async (req, res, next) => {
     // const courses = await Course.find() //  метод из mongo find - означает, что будем забирать все курсы из базы данных
@@ -18,7 +19,7 @@ router.get('/', async (req, res, next) => {
     })
 })
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', auth, async (req, res) => {
     if (!req.query.allow) {
         return res.redirect('/')
     }
@@ -30,14 +31,14 @@ router.get('/:id/edit', async (req, res) => {
     })
 })
 
-router.post('/edit', async (req, res) => {
+router.post('/edit', auth, async (req, res) => {
     const {id} = req.body
     delete req.body.id
     await Course.findByIdAndUpdate(id, req.body) // 1-находим ел 2-обновляем тело
     res.redirect('/courses')
 })
 
-router.post('/remove', async (req, res) => {
+router.post('/remove', auth, async (req, res) => {
     try {
         await Course.deleteOne({_id: req.body.id})
         res.redirect('/courses')
