@@ -3,6 +3,8 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const Handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+const session = require('express-session')
+const varMiddleware = require('./middleware/variables')
 
 const mongoose = require('mongoose')
 
@@ -12,7 +14,7 @@ const coursesRoutes = require('./routes/courses')
 const addRoutes = require('./routes/add')
 const cartRoutes = require('./routes/cart')
 const ordersRoutes = require('./routes/orders')
-
+const authRoutes = require('./routes/auth')
 
 const User = require('./models/user')  // --- экспорт Схемы ---
 
@@ -41,8 +43,13 @@ app.use(async (req, res, next) => { // --- временно забираем ю�
 })
 
 app.use(express.static(path.join(__dirname, 'public'))) // --- регестрируем статические файлы (где будут хранится например css...) ---
-
 app.use(express.urlencoded({extended: true}))
+app.use(session({ // --- настраиваем сессию
+    secret: 'some secret value',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(varMiddleware)
 
 // --- регестрируем роуты с префиксами пути---
 app.use('/', homeRoutes)
@@ -50,6 +57,7 @@ app.use('/courses', coursesRoutes)
 app.use('/add', addRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/cart', cartRoutes)
+app.use('/auth', authRoutes)
 
 
 

@@ -57,3 +57,5 @@ const $card = document.querySelector('#card')
         }
     })
 }
+
+M.Tabs.init(document.querySelectorAll(".tabs"))
