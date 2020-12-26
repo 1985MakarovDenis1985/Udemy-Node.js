@@ -5,8 +5,10 @@ const Handlebars = require('handlebars')
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session) // для автоматического сохраниния сессий в mongoDb
-const varMiddleware = require('./middleware/variables')
 const mongoose = require('mongoose')
+
+const varMiddleware = require('./middleware/variables') // миддлваре авторизации
+const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
 const MONGODB_URI = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
 
 
@@ -44,6 +46,7 @@ app.use(session({ // --- настраиваем сессию
     store // --- передаем базу с сессиями в настройки сессии
 }))
 app.use(varMiddleware)
+app.use(userMiddleware)
 
 
 // --- регестрируем роуты с префиксами пути---
