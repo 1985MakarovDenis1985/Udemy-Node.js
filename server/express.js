@@ -7,6 +7,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session) // для автоматического сохраниния сессий в mongoDb
 const mongoose = require('mongoose')
 const csrf = require('csurf')
+const flash = require('connect-flash') // для передачи ошибок (валидации) при редиректе
 
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
@@ -47,6 +48,7 @@ app.use(session({ // --- настраиваем сессию
     store // --- передаем базу с сессиями в настройки сессии
 }))
 app.use(csrf()) // --- мидл csrf защиты | проверяе наличие токена
+app.use(flash()) // --- передача ошибок
 app.use(varMiddleware)
 app.use(userMiddleware)
 

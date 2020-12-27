@@ -26,3 +26,11 @@
   padding-top: 1rem;
 }
 
+.alert{
+  margin-bottom: 1rem;
+  background: rgba(255, 0, 0, .1);
+  border-radius: 10px;
+  color: red;
+  text-align: center;
+}
+
