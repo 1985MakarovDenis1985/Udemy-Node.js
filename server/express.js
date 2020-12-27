@@ -6,6 +6,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const session = require('express-session')
 const MongoStore = require('connect-mongodb-session')(session) // для автоматического сохраниния сессий в mongoDb
 const mongoose = require('mongoose')
+const csrf = require('csurf')
 
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
@@ -45,6 +46,7 @@ app.use(session({ // --- настраиваем сессию
     saveUninitialized: false, // --- если true, то в хранилище будут попадать пустые сессии;
     store // --- передаем базу с сессиями в настройки сессии
 }))
+app.use(csrf()) // --- мидл csrf защиты | проверяе наличие токена
 app.use(varMiddleware)
 app.use(userMiddleware)
 

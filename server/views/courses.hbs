@@ -23,6 +23,10 @@
                             <!--  форма для корзины -->
                             <form action="/cart/add" method="POST">
                                 <input type="hidden" value="{{id}}" name="id">
+
+                                <!-- добавления инпута для csrf защиты | @root.csrf - так как нужно выйти из итерации вверх -->
+                                <input type="hidden" name="_csrf" value="{{@root.csrf}}">
+
                                 <button type="submit" class="btn btn-primary">Byu</button>
                             </form>
                         {{else}}

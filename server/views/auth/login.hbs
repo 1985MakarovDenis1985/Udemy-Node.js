@@ -23,6 +23,9 @@
                     <span class="helper-text" data-error="write cost" ></span>
                 </div>
 
+                <!-- добавления инпута для csrf защиты -->
+                <input type="hidden" name="_csrf" value="{{csrf}}">
+
                 <button class="btn-primary btn" type="submit">Log in</button>
             </form>
         </div>
@@ -53,6 +56,9 @@
                     <label for="name">Name</label>
                     <span class="helper-text" data-error="write cost" ></span>
                 </div>
+
+                <!-- добавления инпута для csrf защиты | только для пост запросов -->
+                <input type="hidden" name="_csrf" value="{{csrf}}">
 
                 <button class="btn-primary btn" type="submit">Registration</button>
             </form>

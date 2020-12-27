@@ -21,12 +21,19 @@
         <span class="helper-text" data-error="wrong"></span>
     </div>
 
+    <!-- добавления инпута для csrf защиты -->
     <input type="hidden" name="id" value="{{course.id}}">
+
+    <input type="hidden" name="_csrf" value="{{csrf}}">
     <button type="submit">Redactor of course</button>
 </form>
 
 <form action="/courses/remove" method="post" id="form-remove">
     <input type="hidden" id="input-remove" name="id" value="{{course.id}}">
+
+    <!-- добавления инпута для csrf защиты -->
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+
     <button type="submit"  class="btn-remove" id="btn-remove">Remove</button>
 </form>
 

@@ -32,8 +32,16 @@ const $card = document.querySelector('#card')
         if (event.target.classList.contains('js-remove')) {
             const id = event.target.dataset.id
 
+            // создаем csrf на стороне клиента в ajax запросе
+            const csrf = event.target.dataset.csrf
+
             fetch('/cart/remove/' + id, {
                 method: 'delete',
+
+                // подставляем csrf в заголовки для передачи
+                headers: {
+                    'X-XSRF-TOKEN': csrf
+                }
             }).then((res) => res.json())
                 .then(card => {
                     if (card.courses.length) {
