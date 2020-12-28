@@ -12,8 +12,6 @@ const keys = require('./keys')
 
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
-// const MONGODB_URI = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
-
 
 // --- экспортируем роуты ---
 const homeRoutes = require('./routes/home')
