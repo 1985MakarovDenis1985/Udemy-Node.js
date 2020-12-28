@@ -8,10 +8,11 @@ const MongoStore = require('connect-mongodb-session')(session) // для авт�
 const mongoose = require('mongoose')
 const csrf = require('csurf')
 const flash = require('connect-flash') // для передачи ошибок (валидации) при редиректе
+const keys = require('./keys')
 
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
-const MONGODB_URI = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
+// const MONGODB_URI = "mongodb+srv://Denys:test@cluster0.h1cn6.mongodb.net/shop"
 
 
 // --- экспортируем роуты ---
@@ -29,8 +30,8 @@ const hbs = exphbs.create({  // --- настраиваем движок ---
     handlebars: allowInsecurePrototypeAccess(Handlebars) // решает проблемы с доступом
 })
 const store = new MongoStore({ // --- создаем базу в монгодб с сессиями
-    collection: 'sessions',
-    uri: MONGODB_URI
+    collection: 'sessions', // -- change from key.secret
+    uri: keys.MONGODB_URI
 })
 
 
@@ -42,7 +43,7 @@ app.set('views', path.join(__dirname, 'views')) // --- указания пути
 app.use(express.static(path.join(__dirname, 'public'))) // --- регестрируем статические файлы (где будут хранится например css...) ---
 app.use(express.urlencoded({extended: true}))
 app.use(session({ // --- настраиваем сессию
-    secret: 'some secret value',
+    secret: keys.SESSION_SECRET,
     resave: false, // --- указывает, нужно ли пересохранять сессию в хранилище, если она не изменилась (по умолчанию false)
     saveUninitialized: false, // --- если true, то в хранилище будут попадать пустые сессии;
     store // --- передаем базу с сессиями в настройки сессии
@@ -65,7 +66,7 @@ app.use('/auth', authRoutes)
 const PORT = process.env.PORT || 3000
 async function start(){
     try { // подключаем базу через mongoose
-        await mongoose.connect(MONGODB_URI, {
+        await mongoose.connect(keys.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false

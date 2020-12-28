@@ -2,6 +2,15 @@ const {Router} = require('express')
 const router = Router()
 const bcrypt = require('bcryptjs') // шифрование пароля
 const User = require('../models/user')
+const keys = require('../keys')
+const nodemailer = require('nodemailer') // реализация отправки писем
+const sendgrid = require('nodemailer-sendgrid-transport') // реализация отправки писем
+const regEmail = require('../emails/rehistration')
+
+// --- создаем trp и передаем в него сервис которым пользуемся --- //
+const transporter = nodemailer.createTransport(sendgrid({
+    auth: {api_key: keys.SENDGRID_API_KEY} // --- очень важно передать api_key
+}))
 
 
 router.get('/login', async (req, res) => {
@@ -67,11 +76,27 @@ router.post('/registration', async (req, res) => {
             })
             await user.save()
             res.redirect('/auth/login#login')
+
+            // --- рекомендуется использовать после редиректов, что бы не грузить страницу сервисами с долгими загрузками --- //
+            await transporter.sendMail(
+
+                // --- конфиг с выносом в отдельный конфиг --- //
+                regEmail(email, name)
+
+                // --- конфиг без создания отдельного конфига --- //
+                // {         // --- оправляем имейл пользователю после регистрации --- //
+                //     to: email,
+                //     from: "study-node@gmail.com",
+                //     subject: "registration was successful", // --- тема письма --- //
+                //     html: '' // --- отправка данных в виде html --- //
+                // }
+            )
         }
 
     } catch (err) {
         console.log(err)
     }
 })
+
 
 module.exports = router

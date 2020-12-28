@@ -73,6 +73,8 @@
     "handlebars": "^4.7.6",
     "minimist": "^1.2.5",
     "mongoose": "^5.11.7",
+    "nodemailer": "^6.4.17",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "normalize.scss": "^0.1.0",
     "rimraf": "^3.0.2",
     "uuid": "^8.3.1"
