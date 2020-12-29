@@ -25,7 +25,8 @@ const app = express()
 const hbs = exphbs.create({  // --- настраиваем движок ---
     defaultLayout: 'main',
     extname: 'hbs',
-    handlebars: allowInsecurePrototypeAccess(Handlebars) // решает проблемы с доступом
+    handlebars: allowInsecurePrototypeAccess(Handlebars), // решает проблемы с доступом
+    helpers: require('./utils/hbs-helpers')
 })
 const store = new MongoStore({ // --- создаем базу в монгодб с сессиями
     collection: 'sessions', // -- change from key.secret

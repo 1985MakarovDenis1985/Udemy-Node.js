@@ -19,7 +19,11 @@
 
                         <!--  @root. - выходим из each и получаем доступ в корневых елиментов-->
                         {{#if @root.isAuth}}
-                            <a href="/courses/{{id}}/edit?allow=true">Change course</a>
+
+                            {{#ifeq userId._id @root.userId}}
+                                <a href="/courses/{{id}}/edit?allow=true">Change course</a>
+                            {{/ifeq}}
+
                             <!--  форма для корзины -->
                             <form action="/cart/add" method="POST">
                                 <input type="hidden" value="{{id}}" name="id">
