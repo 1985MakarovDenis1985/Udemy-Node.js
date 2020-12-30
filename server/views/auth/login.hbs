@@ -38,16 +38,16 @@
 
         <div id="registration" class="col s6 offset-s3">
 
-            {{#if registrError}}
-                <p class="alert">{{registrError}}</p>
+            {{#if registrationError}}
+                <p class="alert">{{registrationError}}</p>
             {{/if}}
 
             <h1>Registration form</h1>
-            <form action="/auth/registration" method="post">
+            <form action="/auth/registration" method="post" novalidate>
                 <div class="input-field ">
                     <input name="email" id="remail" type="email" class="validate" required>
                     <label for="remail">Email</label>
-                    <span class="helper-text" data-error="wrong"></span>
+                    <span class="helper-text" data-error="wrong email"></span>
                 </div>
 
                 <div class="input-field ">

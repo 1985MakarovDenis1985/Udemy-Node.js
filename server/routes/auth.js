@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs') // шифрование пароля
 const crypto = require('crypto') // для генерации рандомных ключей
 const User = require('../models/user')
 const keys = require('../keys')
+// const {query, params или check} = require('express-validator/check') // --- check - если хотим проверить все параметры || query - если хотим проверить query параметры
+const {validationResult} = require('express-validator') // --- body - если хотим проверить тело запроса || validationResult - получаем ошибки которые присутствуют
+const {registrationValidator} = require('../utils/validators')
 const nodemailer = require('nodemailer') // реализация отправки писем
 const sendgrid = require('nodemailer-sendgrid-transport') // реализация отправки писем
 const regEmail = require('../emails/registration')
@@ -19,7 +22,7 @@ router.get('/login', async (req, res) => {
     res.render('auth/login', {
         title: "Login",
         isLogin: true,
-        registrError: req.flash('registrError'), // --- передаем в рендер ошибку которую сформировали с низу в пост запросах
+        registrationError: req.flash('registrationError'), // --- передаем в рендер ошибку которую сформировали с низу в пост запросах
         loginError: req.flash('loginError')
     })
 })
@@ -60,15 +63,18 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.post('/registration', async (req, res) => {
+// --- вынесли валидатор отдельно --- //
+router.post('/registration', registrationValidator, async (req, res) => {
     try {
-        const {name, email, password, repeat} = req.body
-        const candidate = await User.findOne({email})
+        const {name, email, password} = req.body
 
-        if (candidate) { // --- проверяем: существует ли уже такой кандидат в базе
-            req.flash('registrError', 'user has already exist') // --- 1) название ошибки, 2) текст ошибки
-            res.redirect('/auth/login#registration')
-        } else {                                                // await - всегда перед асинхронными функциями
+        const errors = validationResult(req) // --- проверяем на ошибки --- //
+        if (!errors.isEmpty()) { // --- isEmpty = ошибок нет --- //
+            req.flash('registrationError', errors.array()[0].msg)
+            return res.status(422).redirect('/auth/login#registration')
+        }
+
+                                              // await - всегда перед асинхронными функциями
             const hasPassword = await bcrypt.hash(password, 10) // 1- что шифруем, 2- уровень шифрования
             const user = new User({
                 name,
@@ -81,7 +87,6 @@ router.post('/registration', async (req, res) => {
 
             // --- рекомендуется использовать после редиректов, что бы не грузить страницу сервисами с долгими загрузками --- //
             await transporter.sendMail(
-
                 // --- конфиг с выносом в отдельный конфиг --- //
                 regEmail(email, name)
 
@@ -93,7 +98,6 @@ router.post('/registration', async (req, res) => {
                 //     html: '' // --- отправка данных в виде html --- //
                 // }
             )
-        }
 
     } catch (err) {
         console.log(err)
@@ -107,37 +111,37 @@ router.get('/reset', (req, res) => {
     })
 })
 
-router.get('/password/:token',  async (req, res) => {
-   if (!req.params.token){
-      return res.redirect('/auth/login')
-   }
+router.get('/password/:token', async (req, res) => {
+    if (!req.params.token) {
+        return res.redirect('/auth/login')
+    }
 
-   try {
-       const user = await User.findOne({
-           resetToken: req.params.token,
-           resetTokenExp: {$gt: Date.now()} // gt/lt gr-grater - выче чем текущая дата
-       })
+    try {
+        const user = await User.findOne({
+            resetToken: req.params.token,
+            resetTokenExp: {$gt: Date.now()} // gt/lt gr-grater - выче чем текущая дата
+        })
 
-       if (!user){
-          return  res.redirect('/auth/login')
-       } else {
-           res.render('auth/password',{
-               title: 'Recover access',
-               error: req.flash('error'),
-               userId: user._id.toString(),
-               token: req.params.token
-           })
-       }
+        if (!user) {
+            return res.redirect('/auth/login')
+        } else {
+            res.render('auth/password', {
+                title: 'Recover access',
+                error: req.flash('error'),
+                userId: user._id.toString(),
+                token: req.params.token
+            })
+        }
 
-   }catch (err){
-       console.log(err)
-   }
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 router.post('/reset', (req, res) => {
     try {
         crypto.randomBytes(32, async (err, buffer) => {
-            if (err){
+            if (err) {
                 req.flash('error', 'Something wrong, try later')
                 res.redirect('/auth/reset')
             }
@@ -145,19 +149,19 @@ router.post('/reset', (req, res) => {
             const token = buffer.toString('hex') // --- получаем какой-то сгенерируемый токен --- //
             const candidate = await User.findOne({email: req.body.email}) // --- проверяем есть ли вообще такой пользователь в базе --- //
 
-            if(candidate){
+            if (candidate) {
                 candidate.resetToken = token
                 candidate.resetTokenExp = Date.now() + 60 * 60 * 1000 // --- задаем время токену --- //
                 await candidate.save()
                 await transporter.sendMail(resetEmail(candidate.email, token))
                 res.redirect('/auth/login')
-            }else {
+            } else {
                 req.flash('error', 'There is no user with this email')
                 res.redirect('/auth/reset')
             }
 
         })
-    }catch (err){
+    } catch (err) {
         console.log(err)
     }
 })
@@ -171,7 +175,7 @@ router.post('/password', async (req, res) => {
             resetTokenExp: {$gt: Date.now()}
         })
 
-        if(user){
+        if (user) {
             user.password = await bcrypt.hash(req.body.password, 10)
             user.resetToken = undefined
             user.resetTokenExp = undefined
@@ -179,12 +183,12 @@ router.post('/password', async (req, res) => {
             res.redirect('/auth/login')
 
 
-        }else {
+        } else {
             req.flash('loginError', 'time of token is up')
             res.redirect('/auth/login')
         }
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 })
