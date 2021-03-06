@@ -21,6 +21,7 @@ const addRoutes = require('./routes/add')
 const cartRoutes = require('./routes/cart')
 const ordersRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
+const profileRoutes = require('./routes/profile')
 
 const app = express()
 const hbs = exphbs.create({  // --- настраиваем движок ---
@@ -61,6 +62,7 @@ app.use('/add', addRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/cart', cartRoutes)
 app.use('/auth', authRoutes)
+app.use('/profile', profileRoutes)
 
 app.use(errorHandler) // подключать после роутов, иначе роуты будут не доступны
 
