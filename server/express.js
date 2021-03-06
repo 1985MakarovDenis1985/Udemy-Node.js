@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const csrf = require('csurf')
 const flash = require('connect-flash') // для передачи ошибок (валидации) при редиректе
 const keys = require('./keys')
+const errorHandler = require('./middleware/error') // 404 ошибка
 
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
@@ -60,6 +61,8 @@ app.use('/add', addRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/cart', cartRoutes)
 app.use('/auth', authRoutes)
+
+app.use(errorHandler) // подключать после роутов, иначе роуты будут не доступны
 
 
 const PORT = process.env.PORT || 3000

@@ -34,3 +34,6 @@
   text-align: center;
 }
 
+.add-course_error{
+  color: red;
+}

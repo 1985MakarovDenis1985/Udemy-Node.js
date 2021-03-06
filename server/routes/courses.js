@@ -2,6 +2,9 @@ const {Router} = require('express')
 const router = Router()
 const auth = require('../middleware/auth')
 const Course = require('../models/course')
+const {addCourseValidator} = require('../utils/validators')
+const {validationResult} = require('express-validator')
+
 
 function isOwner(course, req) { // --- проверяем владельца курса --- //
     return course.userId.toString() === req.user._id.toString()
@@ -34,22 +37,33 @@ router.get('/:id/edit', auth, async (req, res) => {
 
     try {
         const course = await Course.findById(req.params.id) // метод из mongo
-
         if (!isOwner(course, req)) { // --- проверка: ты ли добавил курс?
             res.redirect('/courses')
         }
-
         res.render('course-edit', {
             title: `change: ${course.title}`,
             course
         })
-
     } catch (err) {
         console.log(err)
     }
 })
 
-router.post('/edit', auth, async (req, res) => {
+router.post('/edit', auth, addCourseValidator, async (req, res) => {
+    const errors = validationResult(req)
+    const {id} = req.body
+
+    if (!errors.isEmpty()) {
+        // return res.status(422).redirect(`/courses/${id}/edit?allow=true`) // --- либо просто переход --- //
+
+        const course = await Course.findById(id)  // --- либо заного приходится искать course.findById()
+        return res.status(422).render('course-edit', {
+            isAdd: true,
+            errors: errors.array()[0].msg,
+            course
+        })
+    }
+
     try {
         const {id} = req.body
         delete req.body.id
@@ -88,11 +102,8 @@ router.get('/:id', async (req, res) => {
             title: `Course: ${course.title}`,
             course
         })
-    }catch (err){
-
+    } catch (err) {
     }
-
-
 })
 
 module.exports = router
