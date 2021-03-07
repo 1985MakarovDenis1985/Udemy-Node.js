@@ -44,6 +44,7 @@ app.set('views', path.join(__dirname, 'views')) // --- указания пути
 
 
 app.use(express.static(path.join(__dirname, 'public'))) // --- регестрируем статические файлы (где будут хранится например css...) ---
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(express.urlencoded({extended: true}))
 app.use(session({ // --- настраиваем сессию
     secret: keys.SESSION_SECRET,
@@ -51,7 +52,9 @@ app.use(session({ // --- настраиваем сессию
     saveUninitialized: false, // --- если true, то в хранилище будут попадать пустые сессии;
     store // --- передаем базу с сессиями в настройки сессии
 }))
-app.use(fileMiddleware.single('avatars'))
+// подключаем перед csrf
+app.use(fileMiddleware.single('avatar')) // 'avatar' - должен быть в input type='file'
+
 app.use(csrf()) // --- мидл csrf защиты | проверяе наличие токена
 app.use(flash()) // --- передача ошибок
 app.use(varMiddleware)

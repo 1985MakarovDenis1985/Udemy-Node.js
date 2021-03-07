@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
     "test": "jest",
-    "start": "nodemon server/express.js"
+    "start": "nodemon express.js"
   },
   "browserslist": [
     "> 1%",
@@ -74,7 +74,7 @@
     "handlebars": "^4.7.6",
     "minimist": "^1.2.5",
     "mongoose": "^5.11.7",
-    "multer": "^1.4.2",
+    "multer": "^1.4.1",
     "nodemailer": "^6.4.17",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "normalize.scss": "^0.1.0",
