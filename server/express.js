@@ -9,10 +9,12 @@ const mongoose = require('mongoose')
 const csrf = require('csurf')
 const flash = require('connect-flash') // для передачи ошибок (валидации) при редиректе
 const keys = require('./keys')
-const errorHandler = require('./middleware/error') // 404 ошибка
 
+// --- middleware ---
 const varMiddleware = require('./middleware/variables') // миддлваре авторизации
 const userMiddleware = require('./middleware/user') // миддлваре модели юзер для сессии
+const errorHandler = require('./middleware/error') // 404 ошибка
+const fileMiddleware = require('./middleware/file') // multer - конфиг для загрузки файлов
 
 // --- экспортируем роуты ---
 const homeRoutes = require('./routes/home')
@@ -49,6 +51,7 @@ app.use(session({ // --- настраиваем сессию
     saveUninitialized: false, // --- если true, то в хранилище будут попадать пустые сессии;
     store // --- передаем базу с сессиями в настройки сессии
 }))
+app.use(fileMiddleware.single('avatars'))
 app.use(csrf()) // --- мидл csrf защиты | проверяе наличие токена
 app.use(flash()) // --- передача ошибок
 app.use(varMiddleware)
